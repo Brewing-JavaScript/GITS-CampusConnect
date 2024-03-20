@@ -39,7 +39,7 @@ const PieChart = () => {
   };
 
   const companyLabels = placed.map((item) => item.cname);
-  const companyData = placed.map((item) => item.totalNumOfStudents);
+  const companyData = placed.map((item) => item.totalHiredStudents);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
@@ -75,7 +75,7 @@ const PieChart = () => {
         />
       </div>
 
-      <h1 className="text-3xl font-bold mt-16 mb-4">Company-wise Placement</h1>
+      <h1 className="text-3xl font-bold mt-16 mb-4">Company-wise Placement Data</h1>
       <div className="w-1/2 p-4">
         <Pie
           data={{
