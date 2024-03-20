@@ -6,6 +6,7 @@ import api from "../../Api/Api";
 const hardcodedSkills = ["javaScript", "react", "node-js", "html-css", "tailwind-css"];
 const branchOptions = ["computer-science", "information-technology", "mechanical", "civil"];
 
+
 function Profile() {
   const [info, setInfo] = useState({
     avatar: "",
@@ -17,6 +18,12 @@ function Profile() {
       { company: "", role: "", duration: "" }, // Initial empty experience object
     ],
   });
+
+  const [editOn, setEditOn] = useState(true);
+
+  const handleEditClick = () => {
+    setEditOn(!editOn);
+  };
 
   const handleChange = (e) => {
     setInfo({ ...info, [e.target.name]: e.target.value });
@@ -292,7 +299,8 @@ function Profile() {
             </div>
           </div>
 
-          {/* <div style={{ padding: "2rem" }}>
+          {!editOn && (
+          <div id="editOn" style={{ padding: "2rem" }}>
             <h4 style={{ fontSize: "2rem" }}>Account Details</h4>
 
 
@@ -407,9 +415,11 @@ function Profile() {
 
             </form>
 
-          </div> */}
+          </div>
+          )}
 
-          <div>
+          {editOn && (
+          <div id="editOff">
           <div style={{padding: "1rem 1rem 0 1rem", width: "100%"}}>
             <h1 style={{fontSize: "2rem", marginBottom: "1rem", fontWeight: 500}}>Personal Information</h1>
 
@@ -490,6 +500,16 @@ function Profile() {
             </div>
           </div>
           </div>
+          )}
+
+
+          
+          <svg onClick={handleEditClick} style={{width: "50px", height: "50px", transform: "rotate(90deg)"}} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit">
+          <path d="M20.84 7.48l-4.88-4.88a2 2 0 0 0-2.83 0l-1.59 1.59L16.59 9l1.59-1.59a.5.5 0 0 1 .71 0l4.89 4.89a.5.5 0 0 1 0 .7l-1.59 1.59a.5.5 0 0 1-.71 0l-4.89-4.89a.5.5 0 0 1 0-.71L15.17 6l1.59-1.59a2 2 0 0 0 0-2.83z"></path>
+          {/* <line x1="4" y1="20" x2="16" y2="20"></line> */}
+         </svg>
+
+
         </section>
 
 
