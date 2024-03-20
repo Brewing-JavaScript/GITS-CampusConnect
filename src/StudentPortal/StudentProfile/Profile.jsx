@@ -61,7 +61,7 @@ function Profile() {
 
   return (
     <>
-      <Navbar />
+      <Navbar bgColor="profile"/>
       <div className="p-4 sm:ml-64">
         <div className="container mx-auto py-8">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 px-4">

@@ -127,11 +127,10 @@ function CalendarScheduler() {
   for (let i = 1900; i <= new Date().getFullYear(); i++) {
     years.push(i);
   }
-
   return (
     <>
-      <Navbar />
-      <div className="p-4 sm:ml-64" style={{ paddingTop: "2rem" }}>
+      <Navbar bgColor = "calendar"/>
+      <div className="p-4" style={{ paddingTop: "2rem", marginLeft: "22rem" }}>
         <h2 className="mb-12 text-4xl font-bold leadiF sm:text-5xl">Calendar</h2>
         <div className="mb-4 flex justify-between items-center">
           <div>

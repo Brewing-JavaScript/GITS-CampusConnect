@@ -45,7 +45,7 @@ const Query = () => {
 
   return (
     <>
-      <Navbar />
+      <Navbar bgColor="forum"/>
       <div
         className="container mx-auto p-4 sm:ml-64"
         style={{ maxWidth: "80%" }}
