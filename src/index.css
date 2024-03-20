@@ -1,14 +1,14 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+body {
+  background-color: #eceff180;
+  overflow-x: hidden;
+}
 
 /* .bg-eeef2f3 :hover{
   background-color: #dfdfdf;
 } */
-body{
-  background-color: #eceff180;
-}
 
 .btn {
   font-weight: 600 !important;
@@ -42,16 +42,16 @@ body{
 }
 
 .input:focus {
-  border-color: #4F46E5;
+  border-color: #4f46e5;
 }
 
-.beforeDetail{
+.beforeDetail {
   color: #809696;
   font-size: 1rem;
 }
-.afterDetail{
+.afterDetail {
   font-size: 1.2rem;
 }
-.box{
+.box {
   margin-bottom: 1rem;
 }
