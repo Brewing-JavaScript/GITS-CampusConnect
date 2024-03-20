@@ -127,7 +127,7 @@ function Profile() {
 
   return (
     <>
-      <Navbar />
+      <Navbar bgColor="profile"/>
       <div className="p-4 sm:ml-64">
         <div className="container mx-auto py-8">
           <form onSubmit={handleSubmit} className="max-w-lg mx-auto">
