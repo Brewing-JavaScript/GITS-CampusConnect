@@ -75,7 +75,7 @@ const AddJob = () => {
   };
 
   return (
-    <div className="max-w-4xl h-[80vh] mx-auto  border bg-slate-100 shadow-md rounded-md overflow-y-hidden">
+    <div className="max-w-4xl h-[80vh] mx-[70%]  border bg-slate-100 shadow-md rounded-md ">
       <h2 className="text-5xl font-mullish font-bold text-center p-5">Add Job</h2>
       <form
         onSubmit={handleSubmit}
