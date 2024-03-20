@@ -205,7 +205,7 @@ const sendEmail2 = async function (data, user) {
     html: emailTemplate,
   });
 };
-const sendEmail3 = async function (user , roomid) {
+const sendEmail3 = async function (user, roomid) {
   console.log("varad");
   const transporter = nodemailer.createTransport({
     // host:process.env.SMPT_HOST,
@@ -287,7 +287,6 @@ const sendEmail3 = async function (user , roomid) {
   </body>
   </html>
   `;
-  
 
   await transporter.sendMail({
     // from: process.env.SMPT_FROM_HOST ,
@@ -296,6 +295,34 @@ const sendEmail3 = async function (user , roomid) {
     subject: "interview call",
     html: emailTemplate,
   });
+};
+const sendEmail4 = async function (toEmail, subject, htmlContent) {
+  console.log("varad");
+  const transporter = nodemailer.createTransport({
+    // host:process.env.SMPT_HOST,
+    // port: process.env.SMPT_PORT,
+    host: "smtp.elasticemail.com",
+    port: 587,
+    secure: false,
+    auth: {
+      user: "fakeacc6862@gmail.com",
+      pass: "47E85993DC7394854F4E87B9F47289D636F1",
+    },
+  });
+
+  
+
+  try {
+    await transporter.sendMail({
+      from: "fakeacc6862@gmail.com",
+      to: toEmail,
+      subject: subject,
+      html: htmlContent,
+    });
+    console.log("Email sent successfully");
+  } catch (error) {
+    console.error("Error sending email:", error);
+  }
 };
 
 // function myTask() {
@@ -493,7 +520,6 @@ server.post("/add-company", async (req, res) => {
   }
 });
 
-
 server.post("/get-all-company", async (req, res) => {
   try {
     let { branch } = req.body;
@@ -558,12 +584,6 @@ server.post("/get-all-company", async (req, res) => {
     res.status(500).json({ error: "Error fetching companies" });
   }
 });
-
-
-
-
-
-
 
 // componay cred
 
@@ -915,32 +935,60 @@ server.get("/place", async (req, res) => {
   }
 });
 
+server.post("/send-call-mail", async (req, res) => {
+  let { email, room } = req.body;
 
+  try {
+    // if(!email){
+    //   return res.status(400).json({
+    //     error :"email is required"
+    //   })
+    // }
 
-server.post('/send-call-mail' , async (req , res)=>{
-  let {email , room} = req.body;
+    await sendEmail3(email, room);
+    return res.status(200).json({
+      message: "email sended with room id ",
+    });
+  } catch (error) {
+    return res.status(400).json({
+      error: "internal server error",
+    });
+  }
+});
 
+cron.schedule('0 9 * * *', async () => {
+// cron.schedule('*/2 * * * *', async () => {
+  try {
+    // Fetch the company data with the application deadline
+    const company = await Company.findOne({ applicationDeadline: { $gte: new Date() } });
 
-try {
-  // if(!email){
-  //   return res.status(400).json({
-  //     error :"email is required"
-  //   })
-  // }
+    if (company) {
+      const { cname, applicationDeadline } = company;
+      const toEmail = 'varaddhumale177@gmail.com'; // Replace with the recipient's email address
+      const subject = `Reminder: Application Deadline for ${cname}`;
+      const htmlContent = `
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Application Deadline Reminder</title>
+        </head>
+        <body>
+          <p>Dear applicant,</p>
+          <p>This is a reminder that the application deadline for ${cname} is approaching on ${applicationDeadline.toDateString()}.</p>
+          <p>Please ensure your application is submitted before the deadline.</p>
+          <p>Best regards,<br>Your Company Team</p>
+        </body>
+        </html>
+      `;
 
-  await sendEmail3(email , room)
-  return res.status(200).json({
-    message :"email sended with room id "
-  })
-} catch (error) {
-  return res.status(400).json({
-    error :"internal server error"
-  })
-  
-}
-
-
-})
+      await sendEmail4(toEmail, subject, htmlContent);
+    }
+  } catch (error) {
+    console.error('Error scheduling email:', error);
+  }
+});
 
 server.listen(PORT, () => {
   console.log(`listing on ${PORT}`);
