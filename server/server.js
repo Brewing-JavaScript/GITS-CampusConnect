@@ -364,6 +364,8 @@ server.post("/add-company", async (req, res) => {
       applicationDeadline,
       companyVisitDate,
       description,
+      branches,
+      skills,
     } = req.body;
 
     // Create a new company document
@@ -375,13 +377,15 @@ server.post("/add-company", async (req, res) => {
       applicationDeadline,
       companyVisitDate,
       description,
+      branches, // Include branches field
+      skills, // Include skills field
     });
 
     const user = await User.find({});
 
-    for (let i = 0; i < user.length; i++) {
-      await sendEmail("http://localhost:5173", user[i].email);
-    }
+    // for (let i = 0; i < user.length; i++) {
+    //   await sendEmail("http://localhost:5173", user[i].email);
+    // }
 
     // Save the new company document to the database
     console.log(newCompany);
@@ -393,6 +397,7 @@ server.post("/add-company", async (req, res) => {
     res.status(500).json({ error: error.message }); // Handle errors
   }
 });
+
 
 server.get("/get-all-company", async (req, res) => {
   try {

@@ -31,6 +31,14 @@ const companySchema = new Schema(
     description: {
       type: String,
     },
+    branches: {
+      type: [String], // Array of branches
+      required: true,
+    },
+    skills: {
+      type: [String], // Array of skills
+      required: true,
+    },
     userIds: [
       {
         userId: {
