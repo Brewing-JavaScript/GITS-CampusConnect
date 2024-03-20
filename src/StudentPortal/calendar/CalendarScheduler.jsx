@@ -18,7 +18,7 @@ function CalendarScheduler() {
     const token = JSON.parse(user)
     const branchs = sessionStorage.getItem('branch')
     let branch = ''
-    if (branchs !== undefined) {
+    if (branchs !== 'undefined') {
 
       branch = JSON.parse(branchs)
     }
