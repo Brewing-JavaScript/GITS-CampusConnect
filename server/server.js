@@ -533,8 +533,9 @@ server.post("/apply", verifyJWT, async (req, res) => {
   const userId = req.user;
 
   try {
-    const existingUser = User.findById(userId);
-    if (!existingUser.logoUrl) {
+    const existingUser = await User.findById(userId);
+    
+    if (!existingUser.logourl) {
       return res
         .status(403)
         .json({ error: "pleased go to profile page and upload resume " });
@@ -757,21 +758,36 @@ server.get("/hired", async (req, res) => {
 
 server.get("/place", async (req, res) => {
   try {
-    // Aggregate pipeline to group by cname and calculate total numOfStudents
     const companies = await Company.aggregate([
+      {
+        $lookup: {
+          from: "users", // Collection name for the User model
+          localField: "userIds.userId",
+          foreignField: "_id",
+          as: "users"
+        }
+      },
+      {
+        $unwind: "$users" // Unwind the users array
+      },
+      {
+        $match: {
+          "users.hired": true // Match only hired users
+        }
+      },
       {
         $group: {
           _id: "$cname", // Group by company name
-          totalNumOfStudents: { $sum: { $size: "$userIds" } }, // Calculate total numOfStudents
-        },
+          totalHiredStudents: { $sum: 1 } // Count hired students
+        }
       },
       {
         $project: {
-          _id: 0, // Exclude the default _id field
-          cname: "$_id", // Rename _id to cname
-          totalNumOfStudents: 1, // Include totalNumOfStudents in the output
-        },
-      },
+          _id: 0,
+          cname: "$_id",
+          totalHiredStudents: 1
+        }
+      }
     ]);
 
     res.json(companies);
@@ -780,6 +796,7 @@ server.get("/place", async (req, res) => {
     res.status(500).json({ message: "Server Error" });
   }
 });
+
 
 server.listen(PORT, () => {
   console.log(`listing on ${PORT}`);
