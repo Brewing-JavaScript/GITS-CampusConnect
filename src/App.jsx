@@ -13,6 +13,9 @@ import CompanyPage from "./Company/CompanyDetail";
 import Query from "./StudentPortal/Query/Query";
 import ContactList from "./StudentPortal/Query/Alumni";
 import PieChart from "./Company/Home/stats";
+import Lobby from "./videoCalling/screens/Lobby";
+import Room from "./videoCalling/screens/Room";
+import { SocketProvider } from "./videoCalling/context/Socketprovider";
 
 function App() {
   return (
@@ -39,7 +42,7 @@ function AppContent() {
   };
 
   return (
-    <>
+    <SocketProvider>
       {!shouldHideNavbar() && <Navbar />}
       <Routes>
         <Route path="/auth" element={<Authentication />} />
@@ -55,8 +58,12 @@ function AppContent() {
         <Route path="/query" element={<Query />} />
         <Route path="/alumni" element={<ContactList />} />
         <Route path="/stats" element={<PieChart />} />
+
+        <Route path="/company-call" element={<Lobby />} />
+        <Route path="/company-call/:email" element={<Lobby />} />
+        <Route path="/company-call/room/:roomId" element={<Room />} />
       </Routes>
-    </>
+    </SocketProvider>
   );
 }
 

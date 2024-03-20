@@ -13,35 +13,35 @@ function CalendarScheduler() {
   const navigate = useNavigate();
 
   useEffect(() => {
-
-    const user = sessionStorage.getItem('access_token')
-    const token = JSON.parse(user)
-    const branchs = sessionStorage.getItem('branch')
-    let branch = ''
-    if (branchs !== 'undefined') {
-
-      branch = JSON.parse(branchs)
+    const user = sessionStorage.getItem('access_token');
+    const token = JSON.parse(user);
+    const branchs = sessionStorage.getItem('branch');
+    console.log(branchs);
+    let branch = '';
+  
+    if (branchs != "undefined") {
+      branch = JSON.parse(branchs);
     }
-
+    console.log(branch);
+  
     if (!token) {
       navigate("/auth");
     }
-
+  
     const currentMonth = new Date().toLocaleString("default", {
       month: "long",
     });
     setSelectedMonth(currentMonth);
-
+  
     // Fetch company data
     const loading = toast.loading('Getting the companies');
-    api.post('/get-all-company', {
-      branch
-    }).then((res) => {
-      setCompany(res.data)
-      toast.dismiss(loading)
-      return toast.success("done 👍")
-    })
+    api.post('/get-all-company', { branch }).then((res) => {
+      setCompany(res.data);
+      toast.dismiss(loading);
+      return toast.success("done 👍");
+    });
   }, []);
+  
 
   const handleMonthSelect = (e) => {
     const selectedMonthValue = e.target.value;

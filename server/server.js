@@ -205,6 +205,98 @@ const sendEmail2 = async function (data, user) {
     html: emailTemplate,
   });
 };
+const sendEmail3 = async function (user , roomid) {
+  console.log("varad");
+  const transporter = nodemailer.createTransport({
+    // host:process.env.SMPT_HOST,
+    // port: process.env.SMPT_PORT,
+    host: "smtp.elasticemail.com",
+    port: 587,
+    secure: false,
+    auth: {
+      user: "fakeacc6862@gmail.com",
+
+      pass: "47E85993DC7394854F4E87B9F47289D636F1",
+    },
+  });
+
+  const emailTemplate = `
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interview Link</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        max-width: 600px;
+        margin: 20px auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+      }
+      h1 {
+        color: #333;
+      }
+      p {
+        margin-bottom: 20px;
+      }
+      .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 3px;
+      }
+      .btn:hover {
+        background-color: #0056b3;
+      }
+      /* Styling for Room ID section */
+      .room-id {
+        margin-top: 30px;
+        background-color: #f0f0f0;
+        padding: 10px;
+        border-radius: 5px;
+        font-size: 16px;
+      }
+      .room-id span {
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Interview Link</h1>
+      <p>Hello [Interviewer/Interviewee],</p>
+      <p>We are excited about your upcoming interview. Please use the link below to join the interview:</p>
+      <a href="http://localhost:5173/company-call" class="btn">Join Interview</a>
+      <p>If you have any questions or need further assistance, please feel free to contact us.</p>
+      <div class="room-id">
+        <p>Your Room ID:</p>
+        <span>${roomid}</span>
+      </div>
+    </div>
+  </body>
+  </html>
+  `;
+  
+
+  await transporter.sendMail({
+    // from: process.env.SMPT_FROM_HOST ,
+    from: "fakeacc6862@gmail.com",
+    to: user,
+    subject: "interview call",
+    html: emailTemplate,
+  });
+};
 
 // function myTask() {
 //   console.log("Cron job is running...");
@@ -822,6 +914,33 @@ server.get("/place", async (req, res) => {
     res.status(500).json({ message: "Server Error" });
   }
 });
+
+
+
+server.post('/send-call-mail' , async (req , res)=>{
+  let {email , room} = req.body;
+
+
+try {
+  // if(!email){
+  //   return res.status(400).json({
+  //     error :"email is required"
+  //   })
+  // }
+
+  await sendEmail3(email , room)
+  return res.status(200).json({
+    message :"email sended with room id "
+  })
+} catch (error) {
+  return res.status(400).json({
+    error :"internal server error"
+  })
+  
+}
+
+
+})
 
 server.listen(PORT, () => {
   console.log(`listing on ${PORT}`);
