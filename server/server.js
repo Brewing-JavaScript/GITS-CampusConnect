@@ -20,7 +20,8 @@ const server = express();
 server.use(express.json());
 server.use(cors());
 
-const genAI = new GoogleGenerativeAI("AIzaSyDbUQj2jSe1THDWuFVdGKRCJ7ozrzd1MyA");
+const genAI = new GoogleGenerativeAI("AIzaSyCvf6GdLaxRKR8-5RscFksqV1jrKlo-zNc");
+// const genAI = new GoogleGenerativeAI("AIzaSyDbUQj2jSe1THDWuFVdGKRCJ7ozrzd1MyA");
 
 let PORT = 5000;
 
