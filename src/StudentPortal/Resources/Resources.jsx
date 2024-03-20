@@ -229,8 +229,8 @@ export default function Resources() {
 
     return (
         <>
-            <Navbar />
-            <div className="container sm:ml-64" style={{ maxWidth: "80%" }} >
+            <Navbar bgColor="resources"/>
+            <div className="container" style={{ maxWidth: "80%", marginLeft: "22rem", paddingTop: "2rem"}} >
                 <div className="container" style={{}}>
                     <h2 className="text-4xl font-bold leadiF sm:text-5xl" style={{ paddingLeft: "1rem" }}>Project Resources</h2>
                     <div className="flex p-6">
