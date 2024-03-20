@@ -1,0 +1,29 @@
+.resources {
+    margin: 20px;
+  }
+  
+  .resources-heading {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .resources-list {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .resources-item {
+    margin-bottom: 10px;
+  }
+  
+  .resources-link {
+    text-decoration: none;
+    color: #007bff; /* Change color as needed */
+    font-weight: bold;
+  }
+  
+  .resources-link:hover {
+    text-decoration: underline;
+  }
+  
