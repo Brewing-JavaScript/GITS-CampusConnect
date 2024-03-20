@@ -1,4 +1,4 @@
-# Vega
+# CampusConnect
 
 We are Team Brewing JavaScript
 
