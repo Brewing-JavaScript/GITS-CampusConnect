@@ -615,21 +615,32 @@ server.post("/google", async (req, res) => {
 
 server.post("/update-profile", upload.single("avatar"), async (req, res) => {
   try {
-    const { heading, _id } = req.body;
+    const { heading, branch, skills, experiences, _id: userId } = req.body;
 
     // Find the user by ID
-    const user = await User.findById(_id);
+    const user = await User.findById(userId);
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
 
     // Update user's profile information
-    user.cover = heading;
+    if (heading) {
+      user.cover = heading;
+    }
+    if (branch) {
+      user.branch = branch;
+    }
+    if (skills) {
+      user.skills = skills;
+    }
+    if (experiences) {
+      user.experience = JSON.parse(experiences);
+    }
 
     // If file is uploaded
     if (req.file) {
-      const result = await cloudinary.v2.uploader.upload(req.file.path, {
+      const result = await cloudinary.uploader.upload(req.file.path, {
         folder: "bll",
         crop: "fill",
       });
@@ -639,25 +650,21 @@ server.post("/update-profile", upload.single("avatar"), async (req, res) => {
         user.logourl = result.secure_url;
 
         // Remove the file from the local system
-        fs.rm(`uploads/${req.file.filename}`);
-      } else {
+        fs.rm(`uploads/${req.file.filename}`);      } else {
         return res.status(500).json({ error: "Failed to upload image" });
       }
-    } else {
-      return res.status(400).json({ error: "File not found" });
     }
 
     // Save the updated user profile
     await user.save();
 
-    return res
-      .status(200)
-      .json({ message: "Profile updated successfully", user });
+    return res.status(200).json({ message: "Profile updated successfully", user });
   } catch (error) {
     console.error("Error:", error);
     return res.status(500).json({ error: "Internal server error" });
   }
 });
+
 
 server.post("/change-status", async (req, res) => {
   const { userId } = req.body;
@@ -748,22 +755,20 @@ server.get("/hired", async (req, res) => {
   }
 });
 
-
-
-server.get('/place', async (req, res) => {
+server.get("/place", async (req, res) => {
   try {
     // Aggregate pipeline to group by cname and calculate total numOfStudents
     const companies = await Company.aggregate([
       {
         $group: {
-          _id: '$cname', // Group by company name
-          totalNumOfStudents: { $sum: { $size: '$userIds' } }, // Calculate total numOfStudents
+          _id: "$cname", // Group by company name
+          totalNumOfStudents: { $sum: { $size: "$userIds" } }, // Calculate total numOfStudents
         },
       },
       {
         $project: {
           _id: 0, // Exclude the default _id field
-          cname: '$_id', // Rename _id to cname
+          cname: "$_id", // Rename _id to cname
           totalNumOfStudents: 1, // Include totalNumOfStudents in the output
         },
       },
@@ -772,11 +777,9 @@ server.get('/place', async (req, res) => {
     res.json(companies);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: 'Server Error' });
+    res.status(500).json({ message: "Server Error" });
   }
 });
-
-
 
 server.listen(PORT, () => {
   console.log(`listing on ${PORT}`);
