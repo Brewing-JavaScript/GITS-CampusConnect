@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import Resources from '../Resources/Resources';
-import Navbar from '../Navbar/Navbar';
-import api from '../../Api/Api';
-import toast from 'react-hot-toast';
-import { useNavigate } from 'react-router';
+import React, { useState, useEffect } from "react";
+import Resources from "../Resources/Resources";
+import Navbar from "../Navbar/Navbar";
+import api from "../../Api/Api";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router";
 
 function CalendarScheduler() {
-  const [selectedMonth, setSelectedMonth] = useState('');
+  const [selectedMonth, setSelectedMonth] = useState("");
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [showMonthOptions, setShowMonthOptions] = useState(false);
   const [company, setCompany] = useState([]);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
 
@@ -24,10 +24,12 @@ function CalendarScheduler() {
     }
 
     if (!token) {
-      navigate('/auth')
+      navigate("/auth");
     }
 
-    const currentMonth = new Date().toLocaleString('default', { month: 'long' });
+    const currentMonth = new Date().toLocaleString("default", {
+      month: "long",
+    });
     setSelectedMonth(currentMonth);
 
     // Fetch company data
@@ -49,41 +51,50 @@ function CalendarScheduler() {
     setShowMonthOptions(false);
   };
 
-
-
   const renderCalendar = ({ selectedMonth }) => {
-
     console.log(selectedMonth);
 
-    const currentMonthCompanies = company.find((item) => item.month === selectedMonth);
+    const currentMonthCompanies = company.find(
+      (item) => item.month === selectedMonth
+    );
 
     // If no companies for the selected month, return a message
-    if (!currentMonthCompanies || currentMonthCompanies.companies.length === 0) {
-      return <div className='text-3xl mt-8 text-center w-[70vw] text-orange-600'>No companies scheduled for this month</div>;
+    if (
+      !currentMonthCompanies ||
+      currentMonthCompanies.companies.length === 0
+    ) {
+      return (
+        <div className="text-3xl mt-8 text-center w-[70vw] text-orange-600">
+          No companies scheduled for this month
+        </div>
+      );
     }
 
     // Group companies by date
-    const companiesByDate = currentMonthCompanies.companies.reduce((acc, company) => {
-      const visitDate = new Date(company.companyVisitDate).getDate();
-      const deadlineDate = new Date(company.applicationDeadline).getDate();
+    const companiesByDate = currentMonthCompanies.companies.reduce(
+      (acc, company) => {
+        const visitDate = new Date(company.companyVisitDate).getDate();
+        const deadlineDate = new Date(company.applicationDeadline).getDate();
 
-      // Add visit date
-      if (!acc[visitDate]) {
-        acc[visitDate] = [];
-      }
-      acc[visitDate].push({ type: 'visit', company });
+        // Add visit date
+        if (!acc[visitDate]) {
+          acc[visitDate] = [];
+        }
+        acc[visitDate].push({ type: "visit", company });
 
-      // Add application deadline date
-      if (!acc[deadlineDate]) {
-        acc[deadlineDate] = [];
-      }
-      acc[deadlineDate].push({ type: 'deadline', company });
+        // Add application deadline date
+        if (!acc[deadlineDate]) {
+          acc[deadlineDate] = [];
+        }
+        acc[deadlineDate].push({ type: "deadline", company });
 
-      return acc;
-    }, {});
+        return acc;
+      },
+      {}
+    );
 
     function getMonthFromDate(dateString) {
-      if (!dateString || dateString.trim() === '') {
+      if (!dateString || dateString.trim() === "") {
         return -1; // Return -1 if input string is undefined or empty
       }
 
@@ -92,29 +103,53 @@ function CalendarScheduler() {
         return -1; // Return -1 if the input is not a valid date
       }
 
-      return date.toLocaleString('default', { month: 'long' });
+      return date.toLocaleString("default", { month: "long" });
     }
 
     // Render each day with its scheduled companies
-    const daysInMonth = new Date(selectedYear, months.indexOf(selectedMonth) + 1, 0).getDate();
+    const daysInMonth = new Date(
+      selectedYear,
+      months.indexOf(selectedMonth) + 1,
+      0
+    ).getDate();
     return Array.from({ length: daysInMonth }, (_, index) => {
       const day = index + 1;
       const scheduledCompanies = companiesByDate[day] || [];
 
       // Render company details for each day
-      //   
+      //
       return (
-        <div key={index} className=" border-2  border-indigo-500  rounded-md p-3 text-md shadow-2xl capitalize hover:bg-indigo-400 font-mono hover:scale-105 duration-100 ">
+        <div
+          key={index}
+          className=" border-2  border-black-100  rounded-md p-3 text-md shadow-2xl capitalize hover:bg-blue-300 font-mono hover:scale-105 duration-100 "
+        >
           <div className="text-2xl">{day}</div>
           {scheduledCompanies.map(({ type, company }, index) => (
             <div key={index}>
-              <div className=''>
-                <div className='font-bold cursor-pointer hover:underline' onClick={() => navigate(`/company-detail/${company._id + '/' + company.companyName}`)}>{company.companyName + ":-"}</div>
-                {type === 'visit' && getMonthFromDate(company.companyVisitDate) == selectedMonth ? (
-                  <div>Visit </div>
-                ) : type === 'deadline' && getMonthFromDate(company.applicationDeadline) == selectedMonth ? (
+              <div className="">
+                <div
+                  className="font-bold cursor-pointer hover:underline bg-blue-400 rounded-lg p-1 shadow-md text-center"
+                  onClick={() =>
+                    navigate(
+                      `/company-detail/${
+                        company._id + "/" + company.companyName
+                      }`
+                    )
+                  }
+                >
+                  {company.companyName + ""}
+                </div>
+
+                {type === "visit" &&
+                getMonthFromDate(company.companyVisitDate) == selectedMonth ? (
+                  <div>Visit</div>
+                ) : type === "deadline" &&
+                  getMonthFromDate(company.applicationDeadline) ==
+                    selectedMonth ? (
                   <div>Application Deadline</div>
-                ) : ""}
+                ) : (
+                  ""
+                )}
               </div>
             </div>
           ))}
@@ -123,11 +158,19 @@ function CalendarScheduler() {
     });
   };
 
-
   const months = [
-    'January', 'February', 'March', 'April',
-    'May', 'June', 'July', 'August',
-    'September', 'October', 'November', 'December'
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
   ];
 
   // Generate years from 1900 to current year
@@ -139,15 +182,28 @@ function CalendarScheduler() {
     <>
       <Navbar bgColor="calendar" />
       <div className="p-4" style={{ paddingTop: "2rem", marginLeft: "22rem" }}>
-        <h2 className="mb-12 text-4xl font-bold leadiF sm:text-5xl">Calendar</h2>
+        <h2 className="mb-12 text-4xl font-bold leadiF sm:text-5xl">
+          Calendar
+        </h2>
         <div className="mb-4 flex justify-between items-center">
           <div>
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => setShowMonthOptions(!showMonthOptions)}>Select Month</button>
+            <button
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              onClick={() => setShowMonthOptions(!showMonthOptions)}
+            >
+              Select Month
+            </button>
             {showMonthOptions && (
-              <select className="ml-2 p-2" onChange={handleMonthSelect} value={selectedMonth}>
+              <select
+                className="ml-2 p-2"
+                onChange={handleMonthSelect}
+                value={selectedMonth}
+              >
                 <option value="">Select a month</option>
                 {months.map((month, index) => (
-                  <option key={index} value={month}>{month}</option>
+                  <option key={index} value={month}>
+                    {month}
+                  </option>
                 ))}
               </select>
             )}
@@ -163,15 +219,31 @@ function CalendarScheduler() {
         </div>
         {selectedMonth && (
           <div>
-            <h3 className="text-xl font-bold mb-2">{selectedMonth} {selectedYear} Schedule</h3>
+            <h3 className="text-xl font-bold mb-2">
+              {selectedMonth} {selectedYear} Schedule
+            </h3>
             <div className="grid grid-cols-7 gap-2">
-              <div className=" p-2 bg-indigo-950 border text-white border-indigo-500  rounded-md font-bold uppercase shadow-xl text-center hover:bg-indigo-600">Sun</div>
-              <div className=" p-2 bg-indigo-950 border text-white border-indigo-500  rounded-md font-bold uppercase shadow-xl text-center hover:bg-indigo-600">Mon</div>
-              <div className=" p-2 bg-indigo-950 border text-white border-indigo-500  rounded-md font-bold uppercase shadow-xl text-center hover:bg-indigo-600">Tue</div>
-              <div className=" p-2 bg-indigo-950 border text-white border-indigo-500  rounded-md font-bold uppercase shadow-xl text-center hover:bg-indigo-600">Wed</div>
-              <div className=" p-2 bg-indigo-950 border text-white border-indigo-500  rounded-md font-bold uppercase shadow-xl text-center hover:bg-indigo-600">Thu</div>
-              <div className=" p-2 bg-indigo-950 border text-white border-indigo-500  rounded-md font-bold uppercase shadow-xl text-center hover:bg-indigo-600">Fri</div>
-              <div className=" p-2 bg-indigo-950 border text-white border-indigo-500  rounded-md font-bold uppercase shadow-xl text-center hover:bg-indigo-600">Sat</div>
+              <div className=" p-2 bg-black border text-white  rounded-md font-bold uppercase shadow-xl text-center">
+                Sun
+              </div>
+              <div className=" p-2 bg-black border text-white  rounded-md font-bold uppercase shadow-xl text-center">
+                Mon
+              </div>
+              <div className=" p-2 bg-black border text-white rounded-md font-bold uppercase shadow-xl text-center">
+                Tue
+              </div>
+              <div className=" p-2 bg-black border text-white  rounded-md font-bold uppercase shadow-xl text-center">
+                Wed
+              </div>
+              <div className=" p-2 bg-black border text-white rounded-md font-bold uppercase shadow-xl text-center">
+                Thu
+              </div>
+              <div className=" p-2 bg-black border text-white rounded-md font-bold uppercase shadow-xl text-center">
+                Fri
+              </div>
+              <div className=" p-2 bg-black border text-white rounded-md font-bold uppercase shadow-xl text-center">
+                Sat
+              </div>
 
               {renderCalendar({ selectedMonth })}
             </div>
