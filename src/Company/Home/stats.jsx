@@ -12,6 +12,7 @@ ChartJS.register(Tooltip, Legend, ArcElement);
 const PieChart = () => {
 
     const [count, setCount] = useState({});
+    const [placed, setplaced] = useState([]);
     useEffect(() => {
         const loading= toast.loading('loading..')
         api.get('/get-count').then((res=>{
@@ -22,7 +23,21 @@ const PieChart = () => {
             toast.dismiss(loading)
             
         })
+        getCompamywisePlace()
     }, []);
+
+    const getCompamywisePlace = () =>{
+      const loading= toast.loading('loading..')
+        api.get('/place').then((res=>{
+            toast.dismiss(loading)
+            setplaced(res.data)
+        }))
+        .catch(err=>{
+            toast.dismiss(loading)
+            
+        })
+
+    }
 
     return (
       <div className="flex flex-col items-center justify-center min-h-screen">

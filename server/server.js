@@ -749,6 +749,35 @@ server.get("/hired", async (req, res) => {
 });
 
 
+
+server.get('/place', async (req, res) => {
+  try {
+    // Aggregate pipeline to group by cname and calculate total numOfStudents
+    const companies = await Company.aggregate([
+      {
+        $group: {
+          _id: '$cname', // Group by company name
+          totalNumOfStudents: { $sum: { $size: '$userIds' } }, // Calculate total numOfStudents
+        },
+      },
+      {
+        $project: {
+          _id: 0, // Exclude the default _id field
+          cname: '$_id', // Rename _id to cname
+          totalNumOfStudents: 1, // Include totalNumOfStudents in the output
+        },
+      },
+    ]);
+
+    res.json(companies);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Server Error' });
+  }
+});
+
+
+
 server.listen(PORT, () => {
   console.log(`listing on ${PORT}`);
 });
