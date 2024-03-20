@@ -75,11 +75,11 @@ const AddJob = () => {
   };
 
   return (
-    <div className="max-w-4xl h-[80vh] mx-auto  border bg-slate-100 shadow-md rounded-md overflow-y-hidden">
-      <h2 className="text-5xl font-mullish font-bold text-center p-5">Add Job</h2>
+    <div className="max-w-4xl mr-20 h-auto p-8 mx-auto  border bg-slate-100 shadow-md rounded-md ">
+      <h2 className="text-5xl font-mullish font-bold text-center ">Add Job</h2>
       <form
         onSubmit={handleSubmit}
-        className="w-full h-auto flex justify-center items-center space-x-20 mt-20 "
+        className="w-full h-auto flex justify-center items-center space-x-20 mt-8 "
       >
         <div class="flex flex-col gap-6 ">
           <div>
