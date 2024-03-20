@@ -3,8 +3,8 @@ import Navbar from "../Navbar/Navbar";
 import toast from "react-hot-toast";
 import api from "../../Api/Api";
 
-const hardcodedSkills = ["JavaScript", "React", "Node.js", "HTML/CSS", "Tailwind CSS"];
-const branchOptions = ["Computer Science", "Information Technology", "Mechanical", "Civil"];
+const hardcodedSkills = ["javaScript", "react", "node-js", "html-css", "tailwind-css"];
+const branchOptions = ["computer-science", "information-technology", "mechanical", "civil"];
 
 function Profile() {
   const [info, setInfo] = useState({

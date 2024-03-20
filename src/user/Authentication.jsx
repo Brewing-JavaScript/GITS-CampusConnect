@@ -53,6 +53,8 @@ const Authentication = () => {
             sessionStorage.setItem('access_token', JSON.stringify(res.data.access_token))
             sessionStorage.setItem('status', JSON.stringify(res.data.status))
             sessionStorage.setItem('_id', JSON.stringify(res.data._id))
+            sessionStorage.setItem('branch', JSON.stringify(res.data.branch))
+            sessionStorage.setItem('skills', JSON.stringify(res.data.skills))
             toast.dismiss(loading)
             navigate('/')
             return toast.success("login done successfully")
@@ -78,6 +80,8 @@ const Authentication = () => {
             sessionStorage.setItem('access_token', JSON.stringify(res.data.access_token))
             sessionStorage.setItem('status', JSON.stringify(res.data.status))
             sessionStorage.setItem('_id', JSON.stringify(res.data._id))
+            sessionStorage.setItem('branch', JSON.stringify(res.data.branch))
+            sessionStorage.setItem('skills', JSON.stringify(res.data.skills))
 
             toast.dismiss(loading)
             navigate('/')
