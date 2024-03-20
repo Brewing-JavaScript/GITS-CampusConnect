@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import api from '../../Api/Api';
+import { useNavigate } from 'react-router-dom';
 
 const CompanyHomePage = () => {
   const [currentSection, setCurrentSection] = useState('home');
@@ -57,6 +58,13 @@ const CompanyHomePage = () => {
       });
   }
 
+  const navigate = useNavigate()
+
+  const handleCall = (email) => {
+
+  navigate(`/company-call/${email}`)
+  }
+
   return (
     <div className="flex flex-col h-screen">
       <div className="flex-1 overflow-y-auto">
@@ -103,6 +111,9 @@ const CompanyHomePage = () => {
                       <th scope="col" className="px-6 py-3">
                         Status
                       </th>
+                      <th scope="col" className="px-6 py-3">
+                        call
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -122,6 +133,10 @@ const CompanyHomePage = () => {
                         </td>
                         <td className="px-6 py-4 text-right">
                           <button onClick={() => changeStatus(user.userId._id)} className={"font-medium " + (user.userId.hired ? "text-green-600" : "text-red-500")}>{user.userId.hired ? "Hired" : "Pending"}</button>
+                        </td>
+                        <td className="px-6 py-4 text-right">
+                          <button onClick={() => handleCall(user.userId.email)} className="font-medium ">  Make a call
+                          </button>
                         </td>
                       </tr>
                     ))}
