@@ -220,7 +220,8 @@ const sendEmail3 = async function (user , roomid) {
     },
   });
 
-  const emailTemplate = `<!DOCTYPE html>
+  const emailTemplate = `
+  <!DOCTYPE html>
   <html lang="en">
   <head>
     <meta charset="UTF-8">
@@ -258,6 +259,17 @@ const sendEmail3 = async function (user , roomid) {
       .btn:hover {
         background-color: #0056b3;
       }
+      /* Styling for Room ID section */
+      .room-id {
+        margin-top: 30px;
+        background-color: #f0f0f0;
+        padding: 10px;
+        border-radius: 5px;
+        font-size: 16px;
+      }
+      .room-id span {
+        font-weight: bold;
+      }
     </style>
   </head>
   <body>
@@ -267,11 +279,15 @@ const sendEmail3 = async function (user , roomid) {
       <p>We are excited about your upcoming interview. Please use the link below to join the interview:</p>
       <a href="http://localhost:5173/company-call" class="btn">Join Interview</a>
       <p>If you have any questions or need further assistance, please feel free to contact us.</p>
-      <p>Best regards,<br>Your Name</p>
+      <div class="room-id">
+        <p>Your Room ID:</p>
+        <span>${roomid}</span>
+      </div>
     </div>
   </body>
   </html>
   `;
+  
 
   await transporter.sendMail({
     // from: process.env.SMPT_FROM_HOST ,
