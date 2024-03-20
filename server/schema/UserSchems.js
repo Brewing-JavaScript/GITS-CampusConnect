@@ -19,6 +19,26 @@ const userSchema = new mongoose.Schema({
     default: "student",
     type: String,
   },
+  branch: {
+    type: String,
+  },
+  skills: {
+    type: [String],
+    default: [],
+  },
+  experience: [
+    {
+      company: {
+        type: String,
+      },
+      role: {
+        type: String,
+      },
+      duration: {
+        type: String,
+      },
+    },
+  ],
   logourl: {
     type: String,
   },
