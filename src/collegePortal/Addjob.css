@@ -1,0 +1,21 @@
+/* This will style the scrollbar for webkit browsers (Chrome, Safari) */
+select::-webkit-scrollbar {
+    width: 8px; /* Width of the scrollbar */
+  }
+  
+  /* Track */
+  select::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Color of the scrollbar track */
+    
+  }
+  
+  /* Handle */
+  select::-webkit-scrollbar-thumb {
+    background: #888888a4; /* Color of the scrollbar handle */
+  }
+  
+  /* Handle on hover */
+  select::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Color of the scrollbar handle on hover */
+  }
+  
