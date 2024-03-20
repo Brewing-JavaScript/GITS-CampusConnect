@@ -16,6 +16,12 @@ function CalendarScheduler() {
 
     const user = sessionStorage.getItem('access_token')
     const token = JSON.parse(user)
+    const branchs = sessionStorage.getItem('branch')
+    let branch = ''
+    if (branchs !== undefined) {
+
+      branch = JSON.parse(branchs)
+    }
 
     if (!token) {
       navigate('/auth')
@@ -26,7 +32,9 @@ function CalendarScheduler() {
 
     // Fetch company data
     const loading = toast.loading('Getting the companies');
-    api.get('/get-all-company').then((res) => {
+    api.post('/get-all-company', {
+      branch
+    }).then((res) => {
       setCompany(res.data)
       toast.dismiss(loading)
       return toast.success("done 👍")
@@ -129,7 +137,7 @@ function CalendarScheduler() {
   }
   return (
     <>
-      <Navbar bgColor = "calendar"/>
+      <Navbar bgColor="calendar" />
       <div className="p-4" style={{ paddingTop: "2rem", marginLeft: "22rem" }}>
         <h2 className="mb-12 text-4xl font-bold leadiF sm:text-5xl">Calendar</h2>
         <div className="mb-4 flex justify-between items-center">

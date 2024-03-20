@@ -227,9 +227,12 @@ const formatDataToSend = (user) => {
     username: user.username,
     _id: user._id,
     status: user.status,
+    branch: user.branch,
+    skills: user.skills,
   };
 };
 const formatDataToSend2 = (user) => {
+  console.log("user", user);
   const access_token = jwt.sign(
     {
       id: user._id,
@@ -399,10 +402,17 @@ server.post("/add-company", async (req, res) => {
 });
 
 
-server.get("/get-all-company", async (req, res) => {
+server.post("/get-all-company", async (req, res) => {
   try {
+    let { branch } = req.body;
+
     // Fetch all companies from the database
-    const companies = await Company.find();
+    let companies;
+    if (branch) {
+      companies = await Company.find({ branches: branch });
+    } else {
+      companies = await Company.find();
+    }
 
     // Initialize an array to store data for all 12 months
     const companiesByMonth = Array.from({ length: 12 }, (_, index) => {
@@ -427,9 +437,10 @@ server.get("/get-all-company", async (req, res) => {
       // Add company to the respective month
       const companyData = {
         _id: company._id,
-        companyName: company.cname,
+        companyName: company.cname, // Include companyName
         applicationDeadline: company.applicationDeadline,
         companyVisitDate: company.companyVisitDate,
+        branches: company.branches, // Include branches field in the response
       };
 
       companiesByMonth[earliestMonthIndex].companies.push(companyData);
@@ -438,9 +449,11 @@ server.get("/get-all-company", async (req, res) => {
       if (visitDate.getMonth() !== earliestMonthIndex) {
         const visitMonthIndex = visitDate.getMonth();
         const visitMonthCompany = {
-          ...companyData,
+          _id: company._id,
+          companyName: company.companyName, // Include companyName
           applicationDeadline: "",
           companyVisitDate: company.companyVisitDate,
+          branches: company.branches, // Include branches field in the response
         };
         companiesByMonth[visitMonthIndex].companies.push(visitMonthCompany);
       }
@@ -453,6 +466,12 @@ server.get("/get-all-company", async (req, res) => {
     res.status(500).json({ error: "Error fetching companies" });
   }
 });
+
+
+
+
+
+
 
 // componay cred
 
@@ -539,7 +558,7 @@ server.post("/apply", verifyJWT, async (req, res) => {
 
   try {
     const existingUser = await User.findById(userId);
-    
+
     if (!existingUser.logourl) {
       return res
         .status(403)
@@ -656,7 +675,8 @@ server.post("/update-profile", upload.single("avatar"), async (req, res) => {
         user.logourl = result.secure_url;
 
         // Remove the file from the local system
-        fs.rm(`uploads/${req.file.filename}`);      } else {
+        fs.rm(`uploads/${req.file.filename}`);
+      } else {
         return res.status(500).json({ error: "Failed to upload image" });
       }
     }
@@ -664,13 +684,14 @@ server.post("/update-profile", upload.single("avatar"), async (req, res) => {
     // Save the updated user profile
     await user.save();
 
-    return res.status(200).json({ message: "Profile updated successfully", user });
+    return res
+      .status(200)
+      .json({ message: "Profile updated successfully", user });
   } catch (error) {
     console.error("Error:", error);
     return res.status(500).json({ error: "Internal server error" });
   }
 });
-
 
 server.post("/change-status", async (req, res) => {
   const { userId } = req.body;
@@ -769,30 +790,30 @@ server.get("/place", async (req, res) => {
           from: "users", // Collection name for the User model
           localField: "userIds.userId",
           foreignField: "_id",
-          as: "users"
-        }
+          as: "users",
+        },
       },
       {
-        $unwind: "$users" // Unwind the users array
+        $unwind: "$users", // Unwind the users array
       },
       {
         $match: {
-          "users.hired": true // Match only hired users
-        }
+          "users.hired": true, // Match only hired users
+        },
       },
       {
         $group: {
           _id: "$cname", // Group by company name
-          totalHiredStudents: { $sum: 1 } // Count hired students
-        }
+          totalHiredStudents: { $sum: 1 }, // Count hired students
+        },
       },
       {
         $project: {
           _id: 0,
           cname: "$_id",
-          totalHiredStudents: 1
-        }
-      }
+          totalHiredStudents: 1,
+        },
+      },
     ]);
 
     res.json(companies);
@@ -801,7 +822,6 @@ server.get("/place", async (req, res) => {
     res.status(500).json({ message: "Server Error" });
   }
 });
-
 
 server.listen(PORT, () => {
   console.log(`listing on ${PORT}`);
