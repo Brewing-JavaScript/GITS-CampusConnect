@@ -20,7 +20,8 @@ const server = express();
 server.use(express.json());
 server.use(cors());
 
-const genAI = new GoogleGenerativeAI("AIzaSyDbUQj2jSe1THDWuFVdGKRCJ7ozrzd1MyA");
+const genAI = new GoogleGenerativeAI("AIzaSyCvf6GdLaxRKR8-5RscFksqV1jrKlo-zNc");
+// const genAI = new GoogleGenerativeAI("AIzaSyDbUQj2jSe1THDWuFVdGKRCJ7ozrzd1MyA");
 
 let PORT = 5000;
 
@@ -532,8 +533,9 @@ server.post("/apply", verifyJWT, async (req, res) => {
   const userId = req.user;
 
   try {
-    const existingUser = User.findById(userId);
-    if (!existingUser.logoUrl) {
+    const existingUser = await User.findById(userId);
+    
+    if (!existingUser.logourl) {
       return res
         .status(403)
         .json({ error: "pleased go to profile page and upload resume " });
@@ -614,21 +616,32 @@ server.post("/google", async (req, res) => {
 
 server.post("/update-profile", upload.single("avatar"), async (req, res) => {
   try {
-    const { heading, _id } = req.body;
+    const { heading, branch, skills, experiences, _id: userId } = req.body;
 
     // Find the user by ID
-    const user = await User.findById(_id);
+    const user = await User.findById(userId);
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
 
     // Update user's profile information
-    user.cover = heading;
+    if (heading) {
+      user.cover = heading;
+    }
+    if (branch) {
+      user.branch = branch;
+    }
+    if (skills) {
+      user.skills = skills;
+    }
+    if (experiences) {
+      user.experience = JSON.parse(experiences);
+    }
 
     // If file is uploaded
     if (req.file) {
-      const result = await cloudinary.v2.uploader.upload(req.file.path, {
+      const result = await cloudinary.uploader.upload(req.file.path, {
         folder: "bll",
         crop: "fill",
       });
@@ -638,25 +651,21 @@ server.post("/update-profile", upload.single("avatar"), async (req, res) => {
         user.logourl = result.secure_url;
 
         // Remove the file from the local system
-        fs.rm(`uploads/${req.file.filename}`);
-      } else {
+        fs.rm(`uploads/${req.file.filename}`);      } else {
         return res.status(500).json({ error: "Failed to upload image" });
       }
-    } else {
-      return res.status(400).json({ error: "File not found" });
     }
 
     // Save the updated user profile
     await user.save();
 
-    return res
-      .status(200)
-      .json({ message: "Profile updated successfully", user });
+    return res.status(200).json({ message: "Profile updated successfully", user });
   } catch (error) {
     console.error("Error:", error);
     return res.status(500).json({ error: "Internal server error" });
   }
 });
+
 
 server.post("/change-status", async (req, res) => {
   const { userId } = req.body;
@@ -744,6 +753,47 @@ server.get("/hired", async (req, res) => {
     res.status(200).json({ users });
   } catch (error) {
     res.status(500).json({ error: error.message });
+  }
+});
+
+server.get("/place", async (req, res) => {
+  try {
+    const companies = await Company.aggregate([
+      {
+        $lookup: {
+          from: "users", // Collection name for the User model
+          localField: "userIds.userId",
+          foreignField: "_id",
+          as: "users"
+        }
+      },
+      {
+        $unwind: "$users" // Unwind the users array
+      },
+      {
+        $match: {
+          "users.hired": true // Match only hired users
+        }
+      },
+      {
+        $group: {
+          _id: "$cname", // Group by company name
+          totalHiredStudents: { $sum: 1 } // Count hired students
+        }
+      },
+      {
+        $project: {
+          _id: 0,
+          cname: "$_id",
+          totalHiredStudents: 1
+        }
+      }
+    ]);
+
+    res.json(companies);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server Error" });
   }
 });
 
