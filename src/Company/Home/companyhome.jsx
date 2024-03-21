@@ -132,7 +132,7 @@ const CompanyHomePage = () => {
                           <button onClick={() => viewResume(user.userId.logourl)} className="font-medium text-white hover:underline">View</button>
                         </td>
                         <td className="px-6 py-4 text-right">
-                          <button onClick={() => changeStatus(user.userId._id)} className={"font-medium " + (user.userId.hired ? "text-green-400" : "text-red-500")}>{user.userId.hired ? "Hired" : "Pending"}</button>
+                          <button onClick={() => changeStatus(user.userId._id)} className={"font-medium bg-[#FFE6E6] " + (user.userId.hired ? "text-green-500" : "text-red-400")}>{user.userId.hired ? "Hired" : "Pending"}</button>
                         </td>
                         <td className="px-6 py-4 text-right">
                           <button onClick={() => handleCall(user.userId.email)} className="font-medium ">  Make a call
