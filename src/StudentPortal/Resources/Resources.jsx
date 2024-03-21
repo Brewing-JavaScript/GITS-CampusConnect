@@ -21,7 +21,6 @@
 //         <>
 //             <Navbar />
 
-
 //             <div className="p-4 sm:ml-64">
 //                 <div className="container mx-auto py-8">
 //                     <h1 className="text-3xl font-bold mb-4">Project Resources</h1>
@@ -80,7 +79,6 @@
 //                             </a>
 //                         </div>
 //                     </div>
-
 
 //                     <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 videoCards">
 //                         <a href="#">
@@ -203,166 +201,196 @@
 
 // export default Resources;
 
-
 // third code
-import React, { useState } from 'react';
-import './resources.css';
-import Navbar from '../Navbar/Navbar';
-import Rating from '../Rating/Rating';
-import { Link } from 'react-router-dom';
+import React, { useState } from "react";
+import "./resources.css";
+import Navbar from "../Navbar/Navbar";
+import Rating from "../Rating/Rating";
+import { Link } from "react-router-dom";
 
 export default function Resources() {
-    const [selectedBranch, setSelectedBranch] = useState('');
-    const [resources, setResources] = useState([]);
+  const [selectedBranch, setSelectedBranch] = useState("");
+  const [resources, setResources] = useState([]);
 
-    const handleBranchChange = (e) => {
-        setSelectedBranch(e.target.value);
-        // Filter resources based on the selected branch
-        const filteredResources = allResources.filter(resource => resource.branch === e.target.value);
-        setResources(filteredResources);
-    };
-
-    const allResources = [
-        {
-            branch: 'Computer',
-            title: 'Python Resources',
-            description: 'View the detailed notes, outlining tasks and timelines.',
-            link: 'https://docs.google.com/document/d/1bAEG4hx7SPz9Q_41_zT80GrDFQ3tqYy3oCOQnKYLCKo/edit',
-            imgUrl: 'https://cdn4.iconfinder.com/data/icons/logos-and-brands/512/267_Python_logo-1024.png'
-        },
-        {
-            branch: 'Computer',
-            title: 'Java Resources',
-            description: 'View the detailed notes, outlining tasks and timelines.',
-            link: 'https://docs.google.com/document/d/1bAEG4hx7SPz9Q_41_zT80GrDFQ3tqYy3oCOQnKYLCKo/edit',
-            imgUrl: 'https://cdn4.iconfinder.com/data/icons/logos-and-brands/512/181_Java_logo_logos-1024.png'
-        },
-        {
-            branch: 'Computer',
-            title: 'Web Development Resources',
-            description: 'View the detailed notes, outlining tasks and timelines.',
-            link: 'https://docs.google.com/document/d/1bAEG4hx7SPz9Q_41_zT80GrDFQ3tqYy3oCOQnKYLCKo/edit',
-            imgUrl: 'https://cdn3.iconfinder.com/data/icons/luchesa-vol-9/128/Html-1024.png'
-        },
-        {
-            branch: 'Computer',
-            title: 'Python Resources',
-            description: 'View the detailed notes, outlining tasks and timelines.',
-            link: 'https://docs.google.com/document/d/1bAEG4hx7SPz9Q_41_zT80GrDFQ3tqYy3oCOQnKYLCKo/edit',
-            imgUrl: 'https://cdn4.iconfinder.com/data/icons/logos-and-brands/512/267_Python_logo-1024.png'
-        },
-        {
-            branch: 'Computer',
-            title: 'Java Resources',
-            description: 'View the detailed notes, outlining tasks and timelines.',
-            link: 'https://docs.google.com/document/d/1bAEG4hx7SPz9Q_41_zT80GrDFQ3tqYy3oCOQnKYLCKo/edit',
-            imgUrl: 'https://cdn4.iconfinder.com/data/icons/logos-and-brands/512/181_Java_logo_logos-1024.png'
-        },
-        {
-            branch: 'Computer',
-            title: 'Web Development Resources',
-            description: 'View the detailed notes, outlining tasks and timelines.',
-            link: 'https://docs.google.com/document/d/1bAEG4hx7SPz9Q_41_zT80GrDFQ3tqYy3oCOQnKYLCKo/edit',
-            imgUrl: 'https://cdn3.iconfinder.com/data/icons/luchesa-vol-9/128/Html-1024.png'
-        },
-        {
-            branch: 'IT',
-            title: 'Android Development Resources',
-            description: 'View the detailed notes, outlining tasks and timelines.',
-            link: 'https://docs.google.com/document/d/1bAEG4hx7SPz9Q_41_zT80GrDFQ3tqYy3oCOQnKYLCKo/edit',
-            imgUrl: 'https://cdn0.iconfinder.com/data/icons/social-media-2183/512/social__media__social_media__android_-1024.png'
-        },
-        {
-            branch: 'IT',
-            title: 'Blockchain Resources',
-            description: 'View the detailed notes, outlining tasks and timelines.',
-            link: 'https://docs.google.com/document/d/1bAEG4hx7SPz9Q_41_zT80GrDFQ3tqYy3oCOQnKYLCKo/edit',
-            imgUrl: 'https://cdn0.iconfinder.com/data/icons/logos-21/40/Bitcoin-1024.png'
-        },
-        {
-            branch: 'IT',
-            title: 'Machine Learning Resources',
-            description: 'View the detailed notes, outlining tasks and timelines.',
-            link: 'https://docs.google.com/document/d/1bAEG4hx7SPz9Q_41_zT80GrDFQ3tqYy3oCOQnKYLCKo/edit',
-            imgUrl: 'https://cdn4.iconfinder.com/data/icons/general-office/91/General_Office_57-1024.png'
-        },
-        {
-            branch: 'Civil',
-            title: 'Construction Management Resources',
-            description: 'View the detailed notes, outlining tasks and timelines.',
-            link: 'https://docs.google.com/document/d/1bAEG4hx7SPz9Q_41_zT80GrDFQ3tqYy3oCOQnKYLCKo/edit',
-            imgUrl: 'https://cdn0.iconfinder.com/data/icons/construction-2-21/512/construction-industry-building-44-1024.png'
-        },
-        {
-            branch: 'Civil',
-            title: 'Transportation Engineering Resources',
-            description: 'View the detailed notes, outlining tasks and timelines.',
-            link: 'https://docs.google.com/document/d/1bAEG4hx7SPz9Q_41_zT80GrDFQ3tqYy3oCOQnKYLCKo/edit',
-            imgUrl: 'https://cdn0.iconfinder.com/data/icons/isometric-city-basic-transport/64/truck-front-02-1024.png'
-        },
-        {
-            branch: 'Civil',
-            title: 'Environmental Engineering Resources',
-            description: 'View the detailed notes, outlining tasks and timelines.',
-            link: 'https://docs.google.com/document/d/1bAEG4hx7SPz9Q_41_zT80GrDFQ3tqYy3oCOQnKYLCKo/edit',
-            imgUrl: 'https://cdn2.iconfinder.com/data/icons/free-version/128/recycling-1024.png'
-        },
-        {
-            branch: 'Mechanical',
-            title: 'Fluid Mechanics Resources',
-            description: 'View the detailed notes, outlining tasks and timelines.',
-            link: 'https://docs.google.com/document/d/1bAEG4hx7SPz9Q_41_zT80GrDFQ3tqYy3oCOQnKYLCKo/edit',
-            imgUrl: 'https://cdn4.iconfinder.com/data/icons/fluent-solid-20px-vol-3/20/ic_fluent_fluid_20_filled-1024.png'
-        },
-        {
-            branch: 'Mechanical',
-            title: 'Thermodynamics Resources',
-            description: 'View the detailed notes, outlining tasks and timelines.',
-            link: 'https://docs.google.com/document/d/1bAEG4hx7SPz9Q_41_zT80GrDFQ3tqYy3oCOQnKYLCKo/edit',
-            imgUrl: 'https://cdn3.iconfinder.com/data/icons/spring-2-1/30/Sun-1024.png'
-        },
-    ];
-
-    return (
-        <>
-            <Navbar bgColor="resources"/>
-            <div className="container resource" style={{ maxWidth: "80%", marginLeft: "16rem", paddingTop: "2rem"}} >
-                <div className="container resource" style={{}}>
-                    <h2 className="text-4xl font-bold leadiF sm:text-5xl" style={{ paddingLeft: "1rem" }}>Project Resources</h2>
-                    <div className="flex p-6">
-                        <select className="form-select mb-4" value={selectedBranch} onChange={handleBranchChange}>
-                            <option value="">Select Branch</option>
-                            <option value="Computer">Computer</option>
-                            <option value="IT">IT</option>
-                            <option value="Civil">Civil</option>
-                            <option value="Mechanical">Mechanical</option>
-                            {/* Add more branches */}
-                        </select>
-                    </div>
-                    <div className="flex flex-wrap">
-                        {/* Render resources based on selected branch */}
-                        {resources.map((resource, index) => (
-                            <Link key={index} target='_blank' to={resource.link}>
-                                <ResourceCard
-                                    title={resource.title}
-                                    description={resource.description}
-                                    imgUrl={resource.imgUrl}
-                                />
-                            </Link>
-                        ))}
-                    </div>
-                </div>
-            </div>
-        </>
+  const handleBranchChange = (e) => {
+    setSelectedBranch(e.target.value);
+    // Filter resources based on the selected branch
+    const filteredResources = allResources.filter(
+      (resource) => resource.branch === e.target.value
     );
+    setResources(filteredResources);
+  };
+
+  const allResources = [
+    {
+      branch: "Computer",
+      title: "Python Resources",
+      description: "View the detailed notes, outlining tasks and timelines.",
+      link: "https://docs.google.com/document/d/1bAEG4hx7SPz9Q_41_zT80GrDFQ3tqYy3oCOQnKYLCKo/edit",
+      imgUrl:
+        "https://cdn4.iconfinder.com/data/icons/logos-and-brands/512/267_Python_logo-1024.png",
+    },
+    {
+      branch: "Computer",
+      title: "Java",
+      description: "View the detailed video, outlining the instructions.",
+      link: "https://www.youtube.com/playlist?list=PLu0W_9lII9agS67Uits0UnJyrYiXhDS6q",
+      imgUrl:
+        "https://cdn4.iconfinder.com/data/icons/logos-and-brands/512/181_Java_logo_logos-1024.png",
+    },
+    {
+      branch: "Computer",
+      title: "Web Development Resources",
+      description: "View the detailed notes, outlining tasks and timelines.",
+      link: "https://docs.google.com/document/d/1bAEG4hx7SPz9Q_41_zT80GrDFQ3tqYy3oCOQnKYLCKo/edit",
+      imgUrl:
+        "https://cdn3.iconfinder.com/data/icons/luchesa-vol-9/128/Html-1024.png",
+    },
+    {
+      branch: "Computer",
+      title: "Cloud Resources",
+      description: "View the detailed notes, outlining tasks and timelines.",
+      link: "https://docs.google.com/document/d/1bAEG4hx7SPz9Q_41_zT80GrDFQ3tqYy3oCOQnKYLCKo/edit",
+      imgUrl:
+        "https://cdn4.iconfinder.com/data/icons/technology-devices-1/500/cloud-1024.png",
+    },
+    {
+      branch: "Computer",
+      title: "Datastructures Resources",
+      description: "View the detailed notes, outlining tasks and timelines.",
+      link: "https://docs.google.com/document/d/1bAEG4hx7SPz9Q_41_zT80GrDFQ3tqYy3oCOQnKYLCKo/edit",
+      imgUrl:
+        "https://cdn0.iconfinder.com/data/icons/essential-pack-4/512/2-2-1024.png",
+    },
+    {
+      branch: "Computer",
+      title: "Android Development",
+      description: "View the detailed video, outlining the instructions.",
+      link: "https://www.youtube.com/watch?v=7nQsQ0rvYqQ",
+      imgUrl:
+        "https://cdn0.iconfinder.com/data/icons/brands-colored-2/228/android-social-network-brand-logo-1024.png",
+    },
+    {
+      branch: "IT",
+      title: "Android Development",
+      description: "View the detailed notes, outlining tasks and timelines.",
+      link: "https://docs.google.com/document/d/1bAEG4hx7SPz9Q_41_zT80GrDFQ3tqYy3oCOQnKYLCKo/edit",
+      imgUrl:
+        "https://cdn0.iconfinder.com/data/icons/social-media-2183/512/social__media__social_media__android_-1024.png",
+    },
+    {
+      branch: "IT",
+      title: "Blockchain Resources",
+      description: "View the detailed notes, outlining tasks and timelines.",
+      link: "https://docs.google.com/document/d/1bAEG4hx7SPz9Q_41_zT80GrDFQ3tqYy3oCOQnKYLCKo/edit",
+      imgUrl:
+        "https://cdn0.iconfinder.com/data/icons/logos-21/40/Bitcoin-1024.png",
+    },
+    {
+      branch: "IT",
+      title: "Machine Learning Resources",
+      description: "View the detailed notes, outlining tasks and timelines.",
+      link: "https://docs.google.com/document/d/1bAEG4hx7SPz9Q_41_zT80GrDFQ3tqYy3oCOQnKYLCKo/edit",
+      imgUrl:
+        "https://cdn4.iconfinder.com/data/icons/general-office/91/General_Office_57-1024.png",
+    },
+    {
+      branch: "Civil",
+      title: "Construction Management Resources",
+      description: "View the detailed notes, outlining tasks and timelines.",
+      link: "https://docs.google.com/document/d/1bAEG4hx7SPz9Q_41_zT80GrDFQ3tqYy3oCOQnKYLCKo/edit",
+      imgUrl:
+        "https://cdn0.iconfinder.com/data/icons/construction-2-21/512/construction-industry-building-44-1024.png",
+    },
+    {
+      branch: "Civil",
+      title: "Transportation Engineering Resources",
+      description: "View the detailed notes, outlining tasks and timelines.",
+      link: "https://docs.google.com/document/d/1bAEG4hx7SPz9Q_41_zT80GrDFQ3tqYy3oCOQnKYLCKo/edit",
+      imgUrl:
+        "https://cdn0.iconfinder.com/data/icons/isometric-city-basic-transport/64/truck-front-02-1024.png",
+    },
+    {
+      branch: "Civil",
+      title: "Environmental Engineering Resources",
+      description: "View the detailed notes, outlining tasks and timelines.",
+      link: "https://docs.google.com/document/d/1bAEG4hx7SPz9Q_41_zT80GrDFQ3tqYy3oCOQnKYLCKo/edit",
+      imgUrl:
+        "https://cdn2.iconfinder.com/data/icons/free-version/128/recycling-1024.png",
+    },
+    {
+      branch: "Mechanical",
+      title: "Fluid Mechanics Resources",
+      description: "View the detailed notes, outlining tasks and timelines.",
+      link: "https://docs.google.com/document/d/1bAEG4hx7SPz9Q_41_zT80GrDFQ3tqYy3oCOQnKYLCKo/edit",
+      imgUrl:
+        "https://cdn4.iconfinder.com/data/icons/fluent-solid-20px-vol-3/20/ic_fluent_fluid_20_filled-1024.png",
+    },
+    {
+      branch: "Mechanical",
+      title: "Thermodynamics Resources",
+      description: "View the detailed notes, outlining tasks and timelines.",
+      link: "https://docs.google.com/document/d/1bAEG4hx7SPz9Q_41_zT80GrDFQ3tqYy3oCOQnKYLCKo/edit",
+      imgUrl:
+        "https://cdn3.iconfinder.com/data/icons/spring-2-1/30/Sun-1024.png",
+    },
+  ];
+
+  return (
+    <>
+      <Navbar bgColor="resources" />
+      <div
+        className="container resource"
+        style={{ maxWidth: "80%", marginLeft: "16rem", paddingTop: "2rem" }}
+      >
+        <div className="container resource" style={{}}>
+          <h2
+            className="text-4xl font-bold leadiF sm:text-5xl"
+            style={{ paddingLeft: "1rem" }}
+          >
+            Project Resources
+          </h2>
+          <div className="flex p-6">
+            <select
+              className="form-select mb-4"
+              value={selectedBranch}
+              onChange={handleBranchChange}
+            >
+              <option value="">Select Branch</option>
+              <option value="Computer">Computer</option>
+              <option value="IT">IT</option>
+              <option value="Civil">Civil</option>
+              <option value="Mechanical">Mechanical</option>
+              {/* Add more branches */}
+            </select>
+          </div>
+          <div className="flex flex-wrap">
+            {/* Render resources based on selected branch */}
+            {resources.map((resource, index) => (
+              <Link key={index} target="_blank" to={resource.link}>
+                <ResourceCard
+                  title={resource.title}
+                  description={resource.description}
+                  imgUrl={resource.imgUrl}
+                />
+              </Link>
+            ))}
+          </div>
+        </div>
+      </div>
+    </>
+  );
 }
 
 const ResourceCard = ({ title, description, imgUrl }) => {
-    return (
-        <div className="bg-white rounded-lg p-6 shadow-md hover:shadow-lg transition duration-300 w-80 m-2">
-            <img src={imgUrl} alt="" className="w-full h-48 object-cover mb-4"/>
-            <h2 className="text-xl font-semibold mb-2">{title}</h2>
-            <p className="text-gray-600">{description}</p>
-        </div>
-    );
+  return (
+    <div className="bg-white rounded-lg p-6 shadow-md hover:shadow-lg transition duration-300 w-80 m-2">
+    <div className="flex justify-center">
+        <img src={imgUrl} alt="" className="w-3/4 h-auto object-cover mb-4 rounded-lg" style={{ maxHeight: '200px' }} />
+    </div>
+    <h2 className="text-xl font-semibold mb-2">{title}</h2>
+    <p className="text-gray-600">{description}</p>
+</div>
+
+  );
 };
