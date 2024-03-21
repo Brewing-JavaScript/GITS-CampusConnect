@@ -503,9 +503,9 @@ server.post("/add-company", async (req, res) => {
 
     const user = await User.find({});
 
-    // for (let i = 0; i < user.length; i++) {
-    //   await sendEmail("http://localhost:5173", user[i].email);
-    // }
+    for (let i = 0; i < user.length; i++) {
+      await sendEmail("http://localhost:5173", user[i].email);
+    }
 
     // Save the new company document to the database
     console.log(newCompany);
