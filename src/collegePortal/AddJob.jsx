@@ -350,7 +350,7 @@ const AddJob = () => {
                   name="branches"
                   value={formData.branches}
                   onChange={handleChange}
-                  className="border border-black-500 px-3 py-2 w-full rounded-md h-10 focus:border-red-500 cursor-pointer"
+                  className="border border-black-500 px-3 py-2 w-full rounded-md h-[8rem] focus:border-red-500 cursor-pointer"
                   autoComplete="off"
                 >
                   {branchOptions.map((branch) => (
@@ -374,7 +374,7 @@ const AddJob = () => {
                   name="skills"
                   value={formData.skills}
                   onChange={handleChange}
-                  className="border border-black-500 px-3 py-2 w-full h-10 rounded-md focus:border-red-500 cursor-pointer"
+                  className="border border-black-500 px-3 py-2 w-full h-[8rem] rounded-md focus:border-red-500 cursor-pointer"
                   autoComplete="off"
                 >
                   {hardcodedSkills.map((skill) => (
