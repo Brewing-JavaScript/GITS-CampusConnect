@@ -53,7 +53,7 @@ const Query = () => {
     <>
       <Navbar bgColor="forum"/>
       <div
-        className="container mx-auto p-4 sm:ml-64"
+        className="container sneha mx-auto p-4 sm:ml-64"
         style={{ maxWidth: "80%" }}
       >
         <h1 className="text-4xl font-bold text-center mb-8">Forum</h1>
