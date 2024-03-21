@@ -310,8 +310,6 @@ const sendEmail4 = async function (toEmail, subject, htmlContent) {
     },
   });
 
-  
-
   try {
     await transporter.sendMail({
       from: "fakeacc6862@gmail.com",
@@ -754,6 +752,7 @@ server.post("/update-profile", upload.single("avatar"), async (req, res) => {
   try {
     const { heading, branch, skills, experiences, _id: userId } = req.body;
 
+    console.log(heading, branch, skills, experiences);
     // Find the user by ID
     const user = await User.findById(userId);
 
@@ -956,15 +955,17 @@ server.post("/send-call-mail", async (req, res) => {
   }
 });
 
-cron.schedule('0 9 * * *', async () => {
-// cron.schedule('*/2 * * * *', async () => {
+cron.schedule("0 9 * * *", async () => {
+  // cron.schedule('*/2 * * * *', async () => {
   try {
     // Fetch the company data with the application deadline
-    const company = await Company.findOne({ applicationDeadline: { $gte: new Date() } });
+    const company = await Company.findOne({
+      applicationDeadline: { $gte: new Date() },
+    });
 
     if (company) {
       const { cname, applicationDeadline } = company;
-      const toEmail = 'varaddhumale177@gmail.com'; // Replace with the recipient's email address
+      const toEmail = "varaddhumale177@gmail.com"; // Replace with the recipient's email address
       const subject = `Reminder: Application Deadline for ${cname}`;
       const htmlContent = `
         <!DOCTYPE html>
@@ -986,15 +987,13 @@ cron.schedule('0 9 * * *', async () => {
       await sendEmail4(toEmail, subject, htmlContent);
     }
   } catch (error) {
-    console.error('Error scheduling email:', error);
+    console.error("Error scheduling email:", error);
   }
 });
 
-
-
 server.post("/get-user-by-id", async (req, res) => {
   try {
-    const {_id : userId} = req.body;
+    const { _id: userId } = req.body;
     console.log(userId);
 
     // Find user by ID in the database
