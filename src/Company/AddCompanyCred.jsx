@@ -35,17 +35,14 @@ const RefCom = () => {
   };
 
   return (
-    <div className="w-[70vw] h-[80vh] ml-[20%] mt-10 flex flex-col justify-end shadow-2xl shadow-slate-500 rounded-xl ">
+    <div className="w-[70vw] h-[80vh] ml-[20%] mt-10 flex  justify-end shadow-2xl shadow-slate-500 rounded-xl ">
       {errorMessage && <div className="text-red-500 mb-4">{errorMessage}</div>}
       {successMessage && (
         <div className="text-green-500 mb-4">{successMessage}</div>
       )}
-      <div className="container w-full h-full  flex">
-        <form
-          onSubmit={handleSubmit}
-          className="w-[50%] flex justify-center items-center"
-        >
-          <div className="card w-full h-[80%] flex flex-col items-center">
+      <div className="container dd w-full h-full     ">
+        <form onSubmit={handleSubmit} className="w-[50%] flex mr-[10%]">
+          <div className="card w-full h-[100%]  items-center">
             <a className="login">Add Company</a>
             <div className="inputBox">
               <input

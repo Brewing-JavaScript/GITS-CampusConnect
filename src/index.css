@@ -181,3 +181,7 @@ display: block !important;
 .resource{
   display: block !important;
 }
+.dd{
+  flex-direction: row !important;
+  border-radius: 10px;
+}
