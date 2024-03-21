@@ -326,8 +326,8 @@ export default function Resources() {
     return (
         <>
             <Navbar bgColor="resources"/>
-            <div className="container" style={{ maxWidth: "80%", marginLeft: "22rem", paddingTop: "2rem"}} >
-                <div className="container" style={{}}>
+            <div className="container resource" style={{ maxWidth: "80%", marginLeft: "16rem", paddingTop: "2rem"}} >
+                <div className="container resource" style={{}}>
                     <h2 className="text-4xl font-bold leadiF sm:text-5xl" style={{ paddingLeft: "1rem" }}>Project Resources</h2>
                     <div className="flex p-6">
                         <select className="form-select mb-4" value={selectedBranch} onChange={handleBranchChange}>

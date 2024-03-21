@@ -87,6 +87,9 @@ const CompanyLogin = () => {
 
             </div>
         </div>
+
+
+        
     );
 };
 

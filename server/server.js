@@ -753,6 +753,7 @@ server.post("/update-profile", upload.single("avatar"), async (req, res) => {
   try {
     const { heading, branch, skills, experiences, _id: userId } = req.body;
 
+    console.log(heading, branch, skills, experiences);
     // Find the user by ID
     const user = await User.findById(userId);
 
