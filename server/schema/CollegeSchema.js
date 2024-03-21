@@ -60,6 +60,8 @@ const companySchema = new Schema(
   }
 );
 
+companySchema.index({ description: 'text' });
+
 const Company = mongoose.model("Company", companySchema);
 
 export default Company;

@@ -29,6 +29,7 @@ mongoose.connect(
   "mongodb+srv://varad:varad6862@cluster0.0suvvd6.mongodb.net/vega",
   {
     autoIndex: true,
+    
   }
 );
 
@@ -1008,6 +1009,43 @@ server.post("/get-user-by-id", async (req, res) => {
   } catch (error) {
     console.error("Error fetching user profile:", error.message);
     res.status(500).json({ error: "Could not fetch user profile" });
+  }
+});
+
+// Example route handler for getting the best student
+server.post("/get-best-student", async (req, res) => {
+  try {
+    // const { companyId } = req.body; // Assuming companyId is provided in the request body
+
+    // Find the company by ID
+    const company = await Company.findById("65faf712031ffb58b7c31b58");
+    if (!company) {
+      return res.status(404).json({ error: "Company not found" });
+    }
+
+    // Search for matching students based on cover letter and company description
+    const matchingStudents = await User.find(
+      {
+        $and: [
+          { cover: { $exists: true } }, // Check if cover letter exists
+          {
+            $text: {
+              $search: company.description, // Search company description in student cover letters
+            },
+          },
+        ],
+      },
+      { score: { $meta: "textScore" } } // Include text score for sorting
+    ).sort({ score: { $meta: "textScore" } }); // Sort by text score
+
+    // Retrieve the list of matching student IDs
+    const studentsList = matchingStudents.map((student) => student._id);
+
+    // Send the response with the list of matching students
+    res.status(200).json({ success: true, students: studentsList });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, error: "Server error" });
   }
 });
 
