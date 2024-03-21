@@ -173,3 +173,8 @@ button:disabled {
     background-position: top, center;
   }
 }
+
+.dd{
+  flex-direction: row !important;
+  border-radius: 10px;
+}
