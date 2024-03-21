@@ -341,7 +341,7 @@ export default function Resources() {
       <Navbar bgColor="resources" />
       <div
         className="container resource"
-        style={{ maxWidth: "80%", marginLeft: "16rem", paddingTop: "2rem" }}
+        style={{ maxWidth: "80%", marginLeft: "22rem", paddingTop: "2rem" }}
       >
         <div className="container resource" style={{}}>
           <h2
