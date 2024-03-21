@@ -38,7 +38,7 @@ function CalendarScheduler() {
     api.post('/get-all-company', { branch }).then((res) => {
       setCompany(res.data);
       toast.dismiss(loading);
-      return toast.success("done 👍");
+      return toast.success("Done");
     });
   }, []);
   
