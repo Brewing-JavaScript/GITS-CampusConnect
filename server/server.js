@@ -29,7 +29,6 @@ mongoose.connect(
   "mongodb+srv://varad:varad6862@cluster0.0suvvd6.mongodb.net/vega",
   {
     autoIndex: true,
-    
   }
 );
 
@@ -1013,42 +1012,78 @@ server.post("/get-user-by-id", async (req, res) => {
 });
 
 // Example route handler for getting the best student
-server.post("/get-best-student", async (req, res) => {
+server.post("/get-top-st", async (req, res) => {
   try {
-    // const { companyId } = req.body; // Assuming companyId is provided in the request body
+    let { _id: companyId } = req.body;
+   
 
-    // Find the company by ID
-    const company = await Company.findById("65faf712031ffb58b7c31b58");
-    if (!company) {
-      return res.status(404).json({ error: "Company not found" });
+    // Ensure companyId is a valid ObjectId
+    // const companyId = "65faf712031ffb58b7c31b58";
+
+    // Find the company by ID to get its required skills
+    const company = await Company.findById(companyId);
+    if (!company || !company.skills || company.skills.length === 0) {
+      return res
+        .status(404)
+        .json({ error: "Company skills not found or empty" });
     }
 
-    // Search for matching students based on cover letter and company description
-    const matchingStudents = await User.find(
-      {
-        $and: [
-          { cover: { $exists: true } }, // Check if cover letter exists
-          {
-            $text: {
-              $search: company.description, // Search company description in student cover letters
-            },
-          },
-        ],
-      },
-      { score: { $meta: "textScore" } } // Include text score for sorting
-    ).sort({ score: { $meta: "textScore" } }); // Sort by text score
+    // Find all users
+    // const users = await User.find({});
+    const filteredUsers = await User.find({});
+    const users = [];
 
-    // Retrieve the list of matching student IDs
-    const studentsList = matchingStudents.map((student) => student._id);
+    for (let i = 0; i < filteredUsers.length; i++) {
+      const user = filteredUsers[i];
+      if (user.skills.length > 0 && user.skills[0] !== "[]") {
+        users.push(user);
+      }
+    }
 
-    // Send the response with the list of matching students
-    res.status(200).json({ success: true, students: studentsList });
+    // Now filteredUsers array contains users with non-empty and non-"[]" skills arrays
+    console.log(users);
+
+    // Initialize an object to store points for each user
+    const userPoints = {};
+
+    // Loop through users and calculate points based on matching skills
+    users.forEach((user) => {
+      userPoints[user._id] = 0; // Initialize points for each user
+      // Parse the skills string into an array
+      const userSkills = JSON.parse(user.skills[0]);
+
+      userSkills.forEach((skill) => {
+        if (company.skills.includes(skill)) {
+          userPoints[user._id]++;
+        }
+      });
+    });
+
+    // Sort users based on points in descending order
+    const sortedUsers = Object.keys(userPoints).sort(
+      (a, b) => userPoints[b] - userPoints[a]
+    );
+
+    // Retrieve full user details for the top users
+    const topUsersDetails = await User.find({
+      _id: { $in: sortedUsers.slice(0, 3) },
+    });
+
+    return res.status(200).json(topUsersDetails);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ success: false, error: "Server error" });
+    console.error("Error finding top users:", error);
+    return res.status(500).json({ error: "Server error" });
   }
 });
 
+function hasMatchingSkills(userSkills, companySkills) {
+  return userSkills.some((skill) => companySkills.includes(skill));
+}
+
+// Helper function to count matching skills between user and company
+function countMatchingSkills(userSkills, companySkills) {
+  return userSkills.filter((skill) => companySkills.includes(skill)).length;
+}
 server.listen(PORT, () => {
   console.log(`listing on ${PORT}`);
 });
