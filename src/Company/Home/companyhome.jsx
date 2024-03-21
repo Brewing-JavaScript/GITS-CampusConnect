@@ -129,10 +129,10 @@ const CompanyHomePage = () => {
                           {user.jobRole}
                         </td>
                         <td className="px-6 py-4">
-                          <button onClick={() => viewResume(user.userId.logourl)} className="font-medium text-blue-600 dark:text-blue-500 hover:underline">View</button>
+                          <button onClick={() => viewResume(user.userId.logourl)} className="font-medium text-white hover:underline">View</button>
                         </td>
                         <td className="px-6 py-4 text-right">
-                          <button onClick={() => changeStatus(user.userId._id)} className={"font-medium " + (user.userId.hired ? "text-green-600" : "text-red-500")}>{user.userId.hired ? "Hired" : "Pending"}</button>
+                          <button onClick={() => changeStatus(user.userId._id)} className={"font-medium " + (user.userId.hired ? "text-green-400" : "text-red-500")}>{user.userId.hired ? "Hired" : "Pending"}</button>
                         </td>
                         <td className="px-6 py-4 text-right">
                           <button onClick={() => handleCall(user.userId.email)} className="font-medium ">  Make a call
