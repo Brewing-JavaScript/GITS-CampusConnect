@@ -1,10 +1,10 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const { Schema } = mongoose;
 
 const companySchema = new Schema(
   {
-    cname: {
+    companyName: {
       type: String,
       required: true,
     },
@@ -30,28 +30,27 @@ const companySchema = new Schema(
     },
     description: {
       type: String,
+      required: true, // Assuming description is required for text search
     },
     branches: {
-      type: [String], // Array of branches
+      type: [String],
       required: true,
     },
     skills: {
-      type: [String], // Array of skills
+      type: [String],
       required: true,
     },
     userIds: [
       {
         userId: {
           type: Schema.Types.ObjectId,
-          ref: "User",
+          ref: 'User',
         },
         jobRole: {
           type: String,
           required: true,
         },
-        name: {
-          type: String,
-        },
+        name: String, // If not required, can be simplified
       },
     ],
   },
@@ -60,6 +59,8 @@ const companySchema = new Schema(
   }
 );
 
-const Company = mongoose.model("Company", companySchema);
+// Add text index for searching in the 'description' field
+companySchema.index({ description: 'text' }); 
+const Company = mongoose.model('Company', companySchema);
 
 export default Company;
