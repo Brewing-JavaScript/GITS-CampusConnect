@@ -37,13 +37,13 @@ const sendEmail = async function (data, user) {
   const transporter = nodemailer.createTransport({
     // host:process.env.SMPT_HOST,
     // port: process.env.SMPT_PORT,
-    host: "smtp.elasticemail.com",
+    host: "smtp.gmail.com",
     port: 587,
     secure: false,
     auth: {
-      user: "fakeacc6862@gmail.com",
+      user: "prathameshk990@gmail.com",
 
-      pass: "47E85993DC7394854F4E87B9F47289D636F1",
+      pass: "ivwcgjbspkbyyndo",
     },
   });
 
@@ -1086,4 +1086,10 @@ function countMatchingSkills(userSkills, companySkills) {
 }
 server.listen(PORT, () => {
   console.log(`listing on ${PORT}`);
+ 
 });
+
+server.get('/', (req, res) => {
+  res.send(`Server is running on http://localhost:${PORT}`);
+});
+
