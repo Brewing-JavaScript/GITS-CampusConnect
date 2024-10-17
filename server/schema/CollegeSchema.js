@@ -6,7 +6,7 @@ const companySchema = new Schema(
   {
     cname: {
       type: String,
-      required: false,
+      required: true,
     },
     jobRole: {
       type: [String],
