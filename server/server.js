@@ -20,13 +20,13 @@ const server = express();
 server.use(express.json());
 server.use(cors());
 
-const genAI = new GoogleGenerativeAI("AIzaSyCvf6GdLaxRKR8-5RscFksqV1jrKlo-zNc");
-// const genAI = new GoogleGenerativeAI("AIzaSyDbUQj2jSe1THDWuFVdGKRCJ7ozrzd1MyA");
+const genAI = new GoogleGenerativeAI("key");
+// const genAI = new GoogleGenerativeAI("");
 
 let PORT = 5000;
 
 mongoose.connect(
-  "mongodb+srv://varad:varad6862@cluster0.0suvvd6.mongodb.net/vega",
+  "url",
   {
     autoIndex: true,
   }
@@ -41,9 +41,9 @@ const sendEmail = async function (data, user) {
     port: 587,
     secure: false,
     auth: {
-      user: "prathameshk990@gmail.com",
+      user: "email",
 
-      pass: "ivwcgjbspkbyyndo",
+      pass: "pass",
     },
   });
 
@@ -391,9 +391,9 @@ const verifyJWT = (req, res, next) => {
 
 // config cloudinary
 v2.config({
-  cloud_name: "do8ji7uqc",
-  api_key: "738935516257416",
-  api_secret: "DX5PLGdpT-OBOxYhTlq6l5vCNxY",
+  cloud_name: "",
+  api_key: "",
+  api_secret: "",
 });
 
 const upload = multer({
